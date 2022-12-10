@@ -1,0 +1,86 @@
+<!-- Sources: -->
+<!-- (1) "flask-starter-app", mlapresta, Andrew Kamand, https://github.com/osu-cs340-ecampus/flask-starter-app
+		 - Scope: Most sections below.
+		 - Date: First instance of using the code started on 10/08/2022.
+		 - Originality: Our code/approach was based on this source, but it deviated materially 
+			as we learned additional techniques via trial and error. --> 
+
+<!-- (2) "Template Designer Documentation", Pallets, https://jinja.palletsprojects.com/en/3.1.x/templates/
+		 - Scope: Areas where jinja is used and also include statements.
+		 - Date: First instance of using the code started on 11/15/2022.
+		 - Originality: Our code/approach was based on this source. -->
+		 
+<html>
+
+<head>
+	<title>Actors</title>
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='app.css') }}">
+	
+	<!-- Call the included tempate _nav to render the nav links -->	
+	{% include "_nav.j2" %}
+
+	<!-- Dynamic display to show browse or insert -->
+	<script type="text/javascript">
+	function showform(dowhat) {
+
+		if(dowhat == 'insert') {
+			document.getElementById('browse').style.display = 'none';
+			document.getElementById('insert').style.display = 'block';
+		} else { //by default display browse
+			document.getElementById('browse').style.display = 'block';
+			document.getElementById('insert').style.display = 'none';
+		}
+	}
+
+	function newActor() {
+		showform('insert');
+	}
+
+	function browseActors() {
+		showform('browse');
+	}
+
+	</script>
+</head>
+
+<body onload="browseActors()">
+	<br>
+    <br>
+	<h1>Actors</h1> 	
+	
+	<div id="browse">
+
+		<p><a href="#" onClick="newActor()">Add New Actor</a></p>
+
+		<!-- Call the included tempate _create_table to render the table -->
+		{% set createTbl = 'actors' %}
+		{% include "_create_table.j2" %}
+
+	<p>&nbsp;</p>
+	</div>
+
+	<div id="insert">
+
+		<!-- Insert actor form -->
+
+		<form id="insertActor" action="/actors" method="post">
+			<legend><strong>Add actor below:</strong></legend>
+			<fieldset>
+
+				<label for="actor_name">Actor Name:</label>
+				<input type="text" class="form-control" id="actor_name" name="actor_name" placeholder="" required>
+
+            </fieldset>
+
+			<!-- Add and cancel buttons -->
+			<input type="submit" value="Add Actor" name="Add_Actor" class="btn btn-primary" style="margin:.5rem;">
+			<input class="btn" type="button" value="Cancel" onClick="browseActors()"> 
+
+        </form>
+	</div>
+
+<footer>
+	<p>Created by Michael Hrenko & Allysa Foot. © 2020</p>
+</footer>
+</body>
+</html>

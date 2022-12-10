@@ -1,0 +1,36 @@
+<!-- Sources: -->
+<!-- (1) "Template Designer Documentation", Pallets, https://jinja.palletsprojects.com/en/3.1.x/templates/
+		 - Scope: Areas where jinja is used and also include statements.
+		 - Date: First instance of using the code started on 11/15/2022.
+		 - Originality: Our code/approach was based on this source. -->
+
+<html>
+
+<head>
+	<title>500 Error</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='app.css') }}">
+
+    <!-- Call the included tempate _nav to render the nav links -->	
+	{% include "_nav.j2" %}
+</head>
+
+</body>
+
+    <h1>Server Error</h1>
+    
+    {% if error_nbr == 1451 %}
+       {% set error_print = 'Cannot delete a parent row, a foreign key constraint fails.' %}
+    {% else %}
+        {% set error_print = error_msg %}
+    {% endif %}
+
+    <p></p>
+    <p>That action was unsuccessful because of this error: <b>{{error_print}}</b></p>
+    <p></p>
+    <p>Click on the links above to continue.</p>  
+
+<footer>
+	<p>Created by Michael Hrenko & Allysa Foot. © 2020</p>
+</footer>
+</body>
+</html>
