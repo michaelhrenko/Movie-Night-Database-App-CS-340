@@ -1,0 +1,115 @@
+<!-- Sources: -->
+<!-- (1) "flask-starter-app", mlapresta, Andrew Kamand, https://github.com/osu-cs340-ecampus/flask-starter-app
+		 - Scope: Most sections below.
+		 - Date: First instance of using the code started on 10/08/2022.
+		 - Originality: Our code/approach was based on this source, but it deviated materially 
+			as we learned additional techniques via trial and error. --> 
+
+<!-- (2) "Template Designer Documentation", Pallets, https://jinja.palletsprojects.com/en/3.1.x/templates/
+		 - Scope: Areas where jinja is used and also include statements.
+		 - Date: First instance of using the code started on 11/15/2022.
+		 - Originality: Our code/approach was based on this source. -->
+
+<html>
+
+<head>
+	<title>Movies</title>
+
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='app.css') }}">
+	
+	<!-- Call the included tempate _nav to render the nav links -->	
+	{% include "_nav.j2" %}
+
+	<!-- Dynamic display to show browse or insert -->
+	<script type="text/javascript">
+	function showform(dowhat) {
+
+		if(dowhat == 'insert') {
+			document.getElementById('browse').style.display = 'none';
+			document.getElementById('insert').style.display = 'block';
+		} else { //by default display browse
+			document.getElementById('browse').style.display = 'block';
+			document.getElementById('insert').style.display = 'none';
+		}
+	}
+
+	function newMovie() {
+		showform('insert');
+	}
+
+	function browseMovies() {
+		showform('browse');
+	}
+
+	</script>
+</head>
+
+<body onload="browseMovies()">
+	<br>
+    <br>
+	<h1>Movies</h1> 
+	
+	<div id="browse">
+
+		<p><a href="#" onClick="newMovie()">Add New Movie</a></p>
+
+		<!-- Filter by movie name form -->
+		<form id="filterMovie" action="/movies_filtered" method="post">
+			<label for="movie_name">Filer by movie name:</label>
+			<input type="text" class="form-control" id="movie_name" name="movie_name" placeholder="" required>
+			<input type="submit" value="Apply Filter" name="Filter_list" class="btn btn-primary" style="margin:.5rem;">
+        </form>
+
+		<!-- Call the included tempate _create_table to render the table -->
+		{% set createTbl = 'movies' %}
+		{% include "_create_table.j2" %}
+
+	<p>&nbsp;</p>
+	</div>
+
+	<div id="insert">
+
+		<!-- Insert movie form -->
+
+		<form id="insertMovie" action="/movies" method="post">
+			<legend><strong>Add movie below:</strong></legend>
+			<fieldset>
+
+				<label for="movie_name">Movie Name:</label>
+				<input type="text" class="form-control" id="movie_name" name="movie_name" placeholder="" required>
+				<br>
+				<br>
+
+				<label for="movie_year_released">Year Released:</label>
+				<input type="number" class="form-control" id="movie_year_released" name="movie_year_released" min="1900" max="2023" placeholder="" required>
+				<br>
+				<br>
+
+				<label for="movie_language">Language:</label>
+				<input type="text" class="form-control" id="movie_language" name="movie_language" placeholder="" required>
+				<br>
+				<br>
+
+				<!-- This uses director_list passed from app.py --> 
+				<label for="director_name">Director:</label>
+				<select class="form-control" id="director_id" name="director_id" placeholder="">
+					<option value="" selected="selected"></option>
+					{% for row in director_list %} 
+					<option value="{{row.director_id}}">{{row.director_name}}</option>
+					{% endfor %}
+				</select> 
+         
+            </fieldset>
+
+			<!-- Add and cancel buttons -->
+			<input type="submit" value="Add Movie" name="Add_Movie" class="btn btn-primary" style="margin:.5rem;">
+			<input class="btn" type="button" value="Cancel" onClick="browseMovies()"> 
+
+        </form>
+	</div>
+
+<footer>
+	<p>Created by Michael Hrenko & Allysa Foot. © 2020</p>
+</footer>
+</body>
+</html>

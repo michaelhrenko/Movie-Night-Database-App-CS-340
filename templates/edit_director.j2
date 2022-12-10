@@ -1,0 +1,61 @@
+<!-- Sources: -->
+<!-- (1) "flask-starter-app", mlapresta, Andrew Kamand, https://github.com/osu-cs340-ecampus/flask-starter-app
+		 - Scope: Most sections below.
+		 - Date: First instance of using the code started on 10/08/2022.
+		 - Originality: Our code/approach was based on this source, but it deviated materially 
+			as we learned additional techniques via trial and error. --> 
+
+<!-- (2) "Template Designer Documentation", Pallets, https://jinja.palletsprojects.com/en/3.1.x/templates/
+		 - Scope: Areas where jinja is used and also include statements.
+		 - Date: First instance of using the code started on 11/15/2022.
+		 - Originality: Our code/approach was based on this source. -->
+
+<html>
+
+<head>
+	<title>Edit Director</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='app.css') }}">
+
+    <!-- Call the included tempate _nav to render the nav links -->	
+	{% include "_nav.j2" %}
+    
+</head>
+
+<body>
+    <br>
+    <br>
+	<h1>Edit Director</h1> 
+
+    <div>
+
+		<!-- Call the included tempate _create_table to render the table -->
+		{% set createTbl = 'edit_director' %}
+		{% include "_create_table.j2" %}
+
+        <p></p>
+
+        <div id="editDirector">
+
+		    <!-- Edit director form -->
+
+            <form id="editDirector" action="/edit_director/{{data[0].director_id}}" method="post">
+                <legend><strong>Edit director below:</strong></legend>
+                <fieldset>
+                    
+                    <!-- Create hidden form input to store the director_id we are editing so we can access it in app.py -->
+                    <input type="hidden" value="{{data[0].director_id}}" class="form-control" id="director_id" name="director_id" required>
+                    
+                    <label for="make">Director Name:</label>
+                    <input type="text" value="{{data[0].director_name}}" class="form-control" id="director_name" name="director_name" required>
+                
+                </fieldset>
+
+			    <!-- Edit and cancel buttons -->
+                <input type="submit" value="Save" name="Edit_Director" class="btn btn-primary" style="margin:.5rem;">
+                <a href='/directors'><input class="btn" type="button" value="Cancel"></a>
+            </form>
+<footer>
+	<p>Created by Michael Hrenko & Allysa Foot. © 2020</p>
+</footer>
+</body>
+</html>
